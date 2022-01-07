@@ -1,0 +1,40 @@
+-- 1. В базе данных Redis подберите коллекцию для подсчета посещений с определенных IP-адресов
+
+-- Добавляем визиты c с их датами
+HMSET visit_counter '78.196.182.105' 0 
+HINCRBY visit_counter '78.196.182.105' 1
+HINCRBY visit_counter '131.94.167.211' 1
+HINCRBY visit_counter '78.196.182.105' 1
+
+-- Выводим статистику для конкретного IP
+HGET visit_counter '78.196.182.105'
+
+-- 2. При помощи базы данных Redis решите задачу поиска имени пользователя по электронному адресу и наоборот, поиск электронного адреса пользователя по его имени.
+
+-- Могу придумать только через создание параллельных баз
+-- Первая "email-имя":
+hset users email_1 name_1
+hset users email_2 name_2
+hset users email_3 name_3
+hset users email_4 name_4
+hget users email_1
+
+-- Вторая "имя-email":
+hset emails name_1 email_1
+hset emails name_2 email_2
+hset emails name_3 email_3
+hset emails name_4 email_4
+hget emails name_2
+
+-- 3. Организуйте хранение категорий и товарных позиций учебной базы данных shop в СУБД MongoDB.
+
+db.shop.insert({
+"categories": [{"1": "Процессоры"}, {"2": "Материнские платы"}, {"3": "Видеокарты"}, {"4": "Жесткие диски"}, {"5": "Оперативная память"}],
+"products": [{"1": {"name": "Intel Core i7-8800K", "desc": "Процессор для настольных персональных компьютеров, основанных на платформе Intel.", "price": 7890.00, "category": "1"}},
+{"2": {"name": "Intel Core i5-7400", "description": "Процессор для настольных персональных компьютеров, основанных на платформе Intel.", "price": 12700.00, "category": "1"}},
+{"3": {"name": "AMD FX-8320E", "description": "Процессор для настольных персональных компьютеров, основанных на платформе AMD.", "price": 4780.00, "category": "1"}},
+{"4": {"name": "AMD FX-8320", "description": "Процессор для настольных персональных компьютеров, основанных на платформе AMD.", "price": 7120.00, "category": "1"}},
+{"5": {"name": "ASUS ROG MAXIMUS X HERO", "description": "Материнская плата ASUS ROG MAXIMUS X HERO, Z370, Socket 1151-V2, DDR4, ATX", "price": 19310.00, "category": "2"}},
+{"6": {"name": "Gigabyte H310M S2H", "description": "Материнская плата Gigabyte H310M S2H, H310, Socket 1151-V2, DDR4, mATX", "price": "4790.00", "category": "2"}},
+{"7": {"name": "MSI B250M GAMING PRO", "description": "Материнская плата MSI B250M GAMING PRO, B250, Socket 1151, DDR4, mATX", "price": "5060.00", "category": "2"}}]
+})
